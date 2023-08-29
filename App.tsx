@@ -8,6 +8,7 @@
 // import {useQuery} from '@realm/react';
 import React, {useCallback, useEffect, useState} from 'react';
 import {SafeAreaView, Text, useColorScheme, View} from 'react-native';
+import RealmPlugin from 'realm-flipper-plugin-device';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 // import {Note} from './src/realm/models';
@@ -61,15 +62,15 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
   const notes = useQuery(Note);
   const realm = useRealm();
 
-  useEffect(() => {
-    realm.write(() => {
-      realm.create('Note', {
-        _id: new Realm.BSON.ObjectId(),
-        title: 'hello',
-        body: 'This is first notes',
-      });
-    });
-  }, [realm]);
+  // useEffect(() => {
+  //   realm.write(() => {
+  //     realm.create('Note', {
+  //       _id: new Realm.BSON.ObjectId(),
+  //       title: 'hello',
+  //       body: 'This is first notes',
+  //     });
+  //   });
+  // }, [realm]);
 
   const sortNotes = useCallback(
     (reversed: true | false) => {
@@ -85,12 +86,24 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
 
   console.log(allNotes);
 
+  // useEffect(() => {
+  //   allNotes?.forEach((note: any) => {
+  //     realm.write(() => {
+  //       realm.deleteAll();
+  //     });
+  //   });
+  // }, [realm, allNotes]);
+
   return (
     <View>
+      <RealmPlugin realms={[realm]} />
+
       <Text>HomePage</Text>
-      {allNotes?.map(note => {
-        return <NoteDisplay note={note} />;
-      })}
+      {allNotes?.length
+        ? allNotes?.map(note => {
+            return <NoteDisplay note={note} />;
+          })
+        : null}
     </View>
   );
 };
@@ -104,6 +117,7 @@ function App(): JSX.Element {
 
   return (
     <RealmProvider>
+      {/* <RealmPlugin realms={[re]}/> */}
       <SafeAreaView style={backgroundStyle}>
         <Text>HEllloooo</Text>
         <HomePage />
