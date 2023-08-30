@@ -1,41 +1,90 @@
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, useRoute} from '@react-navigation/native';
 // import {useRealm} from '@realm/react';
 import Realm from 'realm';
-import React, {useState} from 'react';
-import {View} from 'react-native';
+import React, {useEffect, useMemo, useState} from 'react';
+import {BackHandler, View} from 'react-native';
 import Input from '../../components/TextInput/TextInput';
 import {Colors} from '../../consts';
 import IconButton from '../../ui/IconButton';
 import Padding from '../../ui/Padding';
 import {Note, RealmContext} from '../../realm';
-const {useRealm} = RealmContext;
+import moment from 'moment';
+export const FormModes = {CREATE: 'CREATE', EDIT: 'EDIT'};
+
+const {useRealm, useObject} = RealmContext;
 type NoteFormPageProps = {};
 
 const NoteFormPage: React.FC<NoteFormPageProps> = ({}) => {
   const {goBack} = useNavigation();
-  const realm = useRealm();
+  const {params, name} = useRoute();
 
-  const [title, setTitle] = useState('');
-  const [body, setBody] = useState('');
+  const realm = useRealm();
+  const note = useMemo(() => {
+    if (params?.noteId) {
+      const record = realm.objectForPrimaryKey(Note, params?.noteId);
+      console.log('FOUND RECORD ::', record);
+
+      return record;
+    }
+  }, [params]);
+
+  const [title, setTitle] = useState(note?.title || '');
+  const [body, setBody] = useState(note?.body || '');
 
   const [height, setHeight] = useState<number>(0);
 
-  const createNote = () => {
-    const returned = realm.write(() => {
-      realm.create('Note', {
-        _id: new Realm.BSON.ObjectId(),
-        body,
-        title,
-      });
-    });
-    console.log('RETURNED ::', returned);
-  };
+  const formMode = useMemo(() => {
+    if (name === 'EditNote') {
+      return FormModes.EDIT;
+    }
+    return FormModes.CREATE;
+  }, [name]);
 
-  const onBackPress = () => {
-    if (body.length && title.length) {
-      createNote();
+  const createNote = () => {
+    try {
+      realm.write(() => {
+        realm.create('Note', {
+          _id: new Realm.BSON.ObjectId(),
+          body,
+          title,
+        });
+      });
+    } catch (error) {
+      console.log('ERROR IN CREAT NOTE', error);
     }
   };
+
+  const editNote = () => {
+    realm.write(() => {
+      if (note) {
+        console.log('IPDATEING :: ', body, title);
+
+        note.body = body as 'string';
+        note.title = title as 'string';
+        note.updatedAt = new Date().toISOString() as 'date';
+      }
+    });
+  };
+  const onBackPress = () => {
+    if (body?.length && title?.length) {
+      switch (formMode) {
+        case FormModes.CREATE:
+          createNote();
+          return;
+        case FormModes.EDIT:
+          editNote();
+          return;
+      }
+    }
+  };
+  useEffect(() => {
+    const backHandler = BackHandler.addEventListener(
+      'hardwareBackPress',
+      onBackPress,
+    );
+
+    return () => backHandler.remove();
+  }, [note, body, title]);
 
   return (
     <View

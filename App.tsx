@@ -21,7 +21,12 @@ function App(): JSX.Element {
             options={{title: 'BetterKeep'}}
           />
           <Stack.Screen
-            name="NoteForm"
+            name="CreateNote"
+            component={NoteFormPage}
+            options={{headerShown: false}}
+          />
+          <Stack.Screen
+            name="EditNote"
             component={NoteFormPage}
             options={{headerShown: false}}
           />

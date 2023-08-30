@@ -63,7 +63,7 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
         iconName="plus"
         onPress={() => {
           console.log('LESGOOOOOOOo');
-          navigate('NoteForm', {});
+          navigate('CreateNote', {});
         }}
       />
     </View>

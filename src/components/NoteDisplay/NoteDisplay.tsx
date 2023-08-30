@@ -1,14 +1,19 @@
 import React from 'react';
-import {View, Text} from 'react-native';
-import {Colors} from '../../consts';
+import {View, Text, TouchableOpacity} from 'react-native';
+import {Colors, DateFormats} from '../../consts';
 import {Note} from '../../realm';
 import Typography from '../../ui/typography/Typography';
-
+import moment from 'moment';
+import {useNavigation} from '@react-navigation/native';
 type NoteDisplayProps = {note: Note};
 
 const NoteDisplay: React.FC<NoteDisplayProps> = ({note}) => {
+  const {navigate} = useNavigation();
   return (
-    <View
+    <TouchableOpacity
+      onPress={() => {
+        navigate('EditNote', {noteId: note._id});
+      }}
       style={{
         // flex: 0.5,
         display: 'flex',
@@ -19,9 +24,28 @@ const NoteDisplay: React.FC<NoteDisplayProps> = ({note}) => {
         borderRadius: 5,
         padding: 5,
       }}>
-      <Typography typography="H6Bold">{note.title}</Typography>
+      <View
+        style={{
+          display: 'flex',
+          flexDirection: 'row',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}>
+        {note.title ? (
+          <Typography typography="H5Bold">{note.title}</Typography>
+        ) : null}
+        <Typography typography="H7RegularDarkGrey">
+          Created -
+          {moment(note.createdAt).format(DateFormats.DayMonthYearNoDashes)}
+        </Typography>
+      </View>
+      {/* <Typography typography="H7Regular">
+        Updated -
+        {moment(note.updatedAt).format(DateFormats.DayMonthYearNoDashes)}
+      </Typography> */}
+
       <Typography typography="H6RegularDarkGrey">{note.body}</Typography>
-    </View>
+    </TouchableOpacity>
   );
 };
 export default NoteDisplay;

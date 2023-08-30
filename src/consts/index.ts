@@ -1,3 +1,4 @@
 import {Colors} from './Colors';
 import {colorString} from './ColorStrings';
-export {Colors, colorString};
+import {DateFormats} from './DateFormats';
+export {Colors, colorString, DateFormats};
