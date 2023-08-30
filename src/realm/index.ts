@@ -5,6 +5,7 @@ import Note from './Note';
 // Create a configuration object
 const realmConfig: Realm.Configuration = {
   schema: [Note],
+  deleteRealmIfMigrationNeeded: true,
 };
 
 // Create a realm context

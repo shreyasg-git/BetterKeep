@@ -1,10 +1,11 @@
 import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 
-import {HomePage} from './src/pages';
+import {HomePage, NoteFormPage} from './src/pages';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {RealmContext} from './src/realm';
+
 const {RealmProvider} = RealmContext;
 
 const Stack = createNativeStackNavigator();
@@ -18,6 +19,11 @@ function App(): JSX.Element {
             name="Home"
             component={HomePage}
             options={{title: 'BetterKeep'}}
+          />
+          <Stack.Screen
+            name="NoteForm"
+            component={NoteFormPage}
+            options={{headerShown: false}}
           />
         </Stack.Navigator>
       </NavigationContainer>

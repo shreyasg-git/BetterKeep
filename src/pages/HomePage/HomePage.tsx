@@ -8,6 +8,7 @@ import Typography from '../../ui/typography/Typography';
 import {NoteDisplay} from '../../components/NoteDisplay';
 import Icon from '../../ui/Icon';
 import FAB from '../../components/FAB';
+import {useNavigation} from '@react-navigation/native';
 const {useRealm, useQuery} = RealmContext;
 
 // "@types/node": "^17.0.42",
@@ -22,6 +23,7 @@ type HomePageProps = {};
 
 const HomePage: React.FC<HomePageProps> = ({}) => {
   // const [allNotes, setAllNotes] = useState<Realm.Results<Note>>();
+  const {navigate} = useNavigation();
   const notes = useQuery(Note);
   const realm = useRealm();
 
@@ -61,6 +63,7 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
         iconName="plus"
         onPress={() => {
           console.log('LESGOOOOOOOo');
+          navigate('NoteForm', {});
         }}
       />
     </View>

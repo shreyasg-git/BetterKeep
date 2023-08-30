@@ -4,6 +4,8 @@ class Note extends Realm.Object<Note> {
   _id!: Realm.BSON.ObjectId;
   title?: 'string';
   body?: 'string';
+  createdAt!: 'date';
+  updatedAt!: 'date';
 
   static schema = {
     name: 'Note',
@@ -11,6 +13,9 @@ class Note extends Realm.Object<Note> {
       _id: 'objectId',
       title: 'string',
       body: 'string',
+      createdAt: {type: 'date', default: () => new Date().toISOString()},
+      updatedAt: {type: 'date', default: () => new Date().toISOString()},
+      // updatedAt: Date;
     },
     primaryKey: '_id',
   };
