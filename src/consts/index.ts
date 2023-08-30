@@ -1,2 +1,3 @@
 import {Colors} from './Colors';
-export {Colors};
+import {colorString} from './ColorStrings';
+export {Colors, colorString};

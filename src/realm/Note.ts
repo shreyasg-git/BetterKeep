@@ -1,7 +1,6 @@
-// Define your object model
 import Realm from 'realm';
 
-export class Note extends Realm.Object<Note> {
+class Note extends Realm.Object<Note> {
   _id!: Realm.BSON.ObjectId;
   name!: string;
 
@@ -15,3 +14,4 @@ export class Note extends Realm.Object<Note> {
     primaryKey: '_id',
   };
 }
+export default Note;
