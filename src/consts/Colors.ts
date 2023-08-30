@@ -1,4 +1,10 @@
 export const Colors = {
+  primaryYellow: '#FFDC64',
+  dark: '#252525',
+  darkNavyBlue: '#000A33',
+  background: '#FFFAEB',
+  // =========================
+
   blue: '#2C49C7',
   skyBlue: '#46C3EB',
   darkBlue: '#14277B',
@@ -9,10 +15,10 @@ export const Colors = {
   fadedGreen: '#CEF0ED',
   graphGreen: '#26cba3ab',
 
-  background: '#F8F9FF',
+  // background: '#F8F9FF',
 
   white: '#FFFFFF',
-  dark: '#000A33',
+  // dark: '#000A33',
 
   red: '#FF5E5E',
 

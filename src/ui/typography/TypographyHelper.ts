@@ -20,13 +20,14 @@ export const typographySizes = {
 
 const DEFAULT_FONT_COLOR = '#333';
 
-export const TypographyHelper: {
-  [key: string]: {
-    fontSize: (typeof typographySizes)[keyof typeof typographySizes];
-    fontFamily: (typeof typographyFamilies)[keyof typeof typographyFamilies];
-    fontColor?: (typeof Colors)[keyof typeof Colors];
-  };
-} = {
+// {
+//   [key: string]: {
+//     fontSize: (typeof typographySizes)[keyof typeof typographySizes];
+//     fontFamily: (typeof typographyFamilies)[keyof typeof typographyFamilies];
+//     fontColor?: (typeof Colors)[keyof typeof Colors];
+//   };
+// }
+export const TypographyHelper = {
   H1Regular: {
     fontSize: typographySizes.h1,
     fontFamily: typographyFamilies.poppinsRegular,

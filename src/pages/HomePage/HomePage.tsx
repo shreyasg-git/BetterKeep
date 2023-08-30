@@ -1,64 +1,68 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {Text, View} from 'react-native';
-// import RealmPlugin from 'realm-flipper-plugin-device';
-
+import React from 'react';
 import Realm from 'realm';
+import {FlatList, TouchableOpacity, View} from 'react-native';
+// import RealmPlugin from 'realm-flipper-plugin-device';
+import {Colors} from '../../consts';
 import {RealmContext, Note} from '../../realm';
+import Typography from '../../ui/typography/Typography';
+import {NoteDisplay} from '../../components/NoteDisplay';
+import Icon from '../../ui/Icon';
+import FAB from '../../components/FAB';
 const {useRealm, useQuery} = RealmContext;
+
+// "@types/node": "^17.0.42",
+// "change-case": "^4.1.2",
+// "rimraf": "^3.0.2",
+// "svgson": "^5.2.1",
+// "ts-node": "^10.8.1",
+// "react-native-config": "^1.4.5"
+// },
+
 type HomePageProps = {};
 
-type NoteDisplayProps = {note: Realm.Object<Note>};
-
-const NoteDisplay: React.FC<NoteDisplayProps> = ({note}) => {
-  // console.log(note.toJSON()._id);
-
-  return (
-    <View>
-      <Text>{note.toJSON().body}</Text>
-      {/* <Text>{note.toJSON()._id}</Text> */}
-    </View>
-  );
-};
-
 const HomePage: React.FC<HomePageProps> = ({}) => {
-  const [allNotes, setAllNotes] = useState<Realm.Results<Note>>();
+  // const [allNotes, setAllNotes] = useState<Realm.Results<Note>>();
   const notes = useQuery(Note);
-  // const realm = useRealm();
+  const realm = useRealm();
 
-  // useEffect(() => {
-  //   realm.write(() => {
-  //     realm.create('Note', {
-  //       _id: new Realm.BSON.ObjectId(),
-  //       title: 'hello',
-  //       body: 'This is first notes',
-  //     });
-  //   });
-  // }, [realm]);
-
-  const sortNotes = useCallback(
-    (reversed: true | false) => {
-      const sorted = notes.sorted('title', reversed);
-      setAllNotes(sorted);
-    },
-    [notes],
-  );
-
-  useEffect(() => {
-    console.log('AAAAAAAAAAAAAAAAAAAAA MOUNTED');
-
-    sortNotes(true);
-  }, [sortNotes]);
+  const createNote = () => {
+    realm.write(() => {
+      realm.create('Note', {
+        _id: new Realm.BSON.ObjectId(),
+        title: `First Note ${Math.floor(Math.random() * 100 + 1)}`,
+        body: '1st Note Body',
+      });
+    });
+  };
 
   return (
-    <View style={{flex: 1, backgroundColor: '#F3F3F3'}}>
-      {/* <RealmPlugin realms={[realm]} /> */}
+    <View style={{flex: 1, backgroundColor: Colors.background}}>
+      <View style={{padding: 10}}>
+        <Typography typography="H5SemiBoldDarkGrey">
+          Total Notes : {notes?.length}
+        </Typography>
+        <TouchableOpacity onPress={createNote}>
+          <Typography typography="H5SemiBoldDarkGrey">CREATE NOTE</Typography>
+        </TouchableOpacity>
+      </View>
 
-      <Text style={{color: '#000'}}>HomePage</Text>
-      {/* {allNotes?.length
-        ? allNotes?.map(note => {
-            return <NoteDisplay note={note} />;
-          })
-        : null} */}
+      <FlatList
+        data={notes}
+        renderItem={props => {
+          return <NoteDisplay note={props.item} />;
+        }}
+        keyExtractor={props => {
+          return props._id.toString();
+        }}
+      />
+
+      {/* <Icon name="plus" size={50} color={Colors.primaryYellow} /> */}
+      <FAB
+        iconName="plus"
+        onPress={() => {
+          console.log('LESGOOOOOOOo');
+        }}
+      />
     </View>
   );
 };

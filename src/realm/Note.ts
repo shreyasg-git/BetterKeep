@@ -2,7 +2,8 @@ import Realm from 'realm';
 
 class Note extends Realm.Object<Note> {
   _id!: Realm.BSON.ObjectId;
-  name!: string;
+  title?: 'string';
+  body?: 'string';
 
   static schema = {
     name: 'Note',
