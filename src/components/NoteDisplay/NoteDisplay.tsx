@@ -34,15 +34,18 @@ const NoteDisplay: React.FC<NoteDisplayProps> = ({note}) => {
         {note.title ? (
           <Typography typography="H5Bold">{note.title}</Typography>
         ) : null}
-        <Typography typography="H7RegularDarkGrey">
-          Created -
-          {moment(note.createdAt).format(DateFormats.DayMonthYearNoDashes)}
-        </Typography>
+        <View>
+          <Typography typography="H7RegularDarkGrey">
+            {/* Created - */}
+            {moment(note.createdAt).format(
+              DateFormats.DayMonthYearNoDashes,
+            )}, {moment(note.updatedAt).fromNow()}
+          </Typography>
+          <Typography typography="H7RegularDarkGrey">
+            {/* Updated -{moment(note.updatedAt).fromNow()} */}
+          </Typography>
+        </View>
       </View>
-      {/* <Typography typography="H7Regular">
-        Updated -
-        {moment(note.updatedAt).format(DateFormats.DayMonthYearNoDashes)}
-      </Typography> */}
 
       <Typography typography="H6RegularDarkGrey">{note.body}</Typography>
     </TouchableOpacity>
