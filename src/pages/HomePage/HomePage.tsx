@@ -9,15 +9,8 @@ import {NoteDisplay} from '../../components/NoteDisplay';
 import Icon from '../../ui/Icon';
 import FAB from '../../components/FAB';
 import {useNavigation} from '@react-navigation/native';
+import NewModuleButton from '../../components/NativeAccess/CreateCalendar';
 const {useRealm, useQuery} = RealmContext;
-
-// "@types/node": "^17.0.42",
-// "change-case": "^4.1.2",
-// "rimraf": "^3.0.2",
-// "svgson": "^5.2.1",
-// "ts-node": "^10.8.1",
-// "react-native-config": "^1.4.5"
-// },
 
 type HomePageProps = {};
 
@@ -46,6 +39,7 @@ const HomePage: React.FC<HomePageProps> = ({}) => {
         <TouchableOpacity onPress={createNote}>
           <Typography typography="H5SemiBoldDarkGrey">CREATE NOTE</Typography>
         </TouchableOpacity>
+        <NewModuleButton />
       </View>
 
       <FlatList
